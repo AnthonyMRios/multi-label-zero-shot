@@ -55,20 +55,20 @@ def short_to_decimal(code):
             return code
 
 
-def load_descriptions_mim2():
+def load_descriptions():
     lookup = {}
     tmp_desc = {}
-    with open('/home/amri228/final_paper/data/mimic2/ICD9_descriptions', 'r') as in_file:
+    with open('./data/ICD9_descriptions', 'r') as in_file:
         for row in in_file:
             data = row.strip().split('\t')
             tmp_desc[data[0]] = data[1]
 
-    with open('/home/amri228/final_paper/data/mimic2/lookup_ids_labels.txt', 'r') as in_file:
+    with open('./data/lookup_ids_labels.txt', 'r') as in_file:
         for row in in_file:
             data = row.strip().split('|')
             lookup[data[0]] = data[1]
     descs = []
-    with open('/home/amri228/final_paper/data/mimic2/all_labels_final.txt', 'r') as in_file:
+    with open('./data/all_labels_final.txt', 'r') as in_file:
         for row in in_file:
             data = row.strip()
             #if lookup[data] in tmp_desc:
@@ -77,75 +77,6 @@ def load_descriptions_mim2():
             #    descs.append('unknownabc')
     return descs
 
-
-
-def load_descriptions():
-    lookup = {}
-    tmp_desc = {}
-    missing = 0
-    with open('/home/amri228/final_paper/data/mimic2/ICD9_descriptions', 'r') as in_file:
-        for row in in_file:
-            data = row.strip().split('\t')
-            tmp_desc[data[0]] = data[1]
-            if data[0] == '53.83':
-                print decimal_to_short(data[0])
-            #lookup[decimal_to_short(data[0])] = data[0]
-            lookup[data[0]] = data[0]
-    with open('/home/amri228/final_paper/data/icd9.txt', 'r') as in_file:
-        for row in in_file:
-            data = row.strip().split('\t')
-            if data[0] in lookup:
-                continue
-            tmp_desc[short_to_decimal(data[0])] = data[1]
-            lookup[short_to_decimal(data[0])] = short_to_decimal(data[0])
-    with open('/home/amri228/final_paper/data/mimic3/all_data/D_ICD_PROCEDURES.csv', 'r') as in_file:
-        iCSV = csv.reader(in_file, delimiter=',')
-        for row in iCSV:
-            data = []
-            data.append(short_to_decimal1(row[1]))
-            data.append(row[3])
-            if data[0] in lookup:
-                continue
-            if row[1] == '400':
-                print data
-            tmp_desc[short_to_decimal1(data[0])] = data[1]
-            lookup[short_to_decimal1(data[0])] = short_to_decimal1(data[0])
-    with open('/home/amri228/final_paper/data/mimic3/all_data/D_ICD_DIAGNOSES.csv', 'r') as in_file:
-        iCSV = csv.reader(in_file, delimiter=',')
-        for row in iCSV:
-            data = []
-            data.append(short_to_decimal(row[1]))
-            data.append(row[3])
-            if data[0] in lookup:
-                continue
-            tmp_desc[short_to_decimal(data[0])] = data[1]
-            lookup[short_to_decimal(data[0])] = short_to_decimal(data[0])
-
-    with open('/home/amri228/final_paper/data/concept_embeddings/eval/cui_icd9.txt', 'r') as in_file:
-        for row in in_file:
-            data = row.strip().split('|')
-            if data[0] in lookup:
-                continue
-            missing += 1
-            tmp_desc[data[10]] = data[14]
-            #lookup[decimal_to_short(data[10])] = data[10]
-            lookup[data[10]] = data[10]
-
-    descs = []
-    #with open('/home/amri228/final_paper/data/mimic2/all_labels_final.txt', 'r') as in_file:
-    missing = []
-    with open('/home/amri228/final_paper/data/mimic3/fixed2_all_labels_final.txt', 'r') as in_file:
-        for row in in_file:
-            data = row.strip()
-            if data in lookup:
-                #descs.append(tmp_desc[lookup[data]])
-                descs.append(tmp_desc[data])
-            else:
-                missing.append(data)
-                descs.append('UNK')
-    print 'total missing', len(missing), missing
-    sys.stdout.flush()
-    return descs
 
 def load_data_file(txt_filename):
     txt = open(txt_filename, 'r')

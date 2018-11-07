@@ -27,7 +27,7 @@ def main():
     parser.add_argument('--lstm_hidden_state', type=int, default=128, help='LSTM hidden state size.')
     parser.add_argument('--word_vectors', default=None, help='Word vecotors filepath.')
     #parser.add_argument('--labels', default='/home/amri228/naacl_2018/data/mimic3/all_labels.txt',
-    parser.add_argument('--labels', default='/home/amri228/final_paper/data/mimic2/all_labels_final.txt',
+    parser.add_argument('--labels', default='./data/all_labels_final.txt',
                         help='All Labels.')
     parser.add_argument('--checkpoint_dir', default='./experiments/exp1/checkpoints/',
                         help='Checkpoint directory.')
@@ -103,7 +103,7 @@ def main():
     # Init Model
     if args.model_type == 'cnn':
         from models.att_cnn_graph import CNN
-        adj = joblib.load('/home/amri228/final_paper/data/mimic2/mimic2_adj_matrix.pkl')
+        adj = joblib.load('./data/mimic2_adj_matrix.pkl')
         adj = adj + label_cooc
         adj[adj > 0] = 1.
         #with open('/home/amri228/final_paper/data/mimic2/mimic2_adj_matrix.pkl', 'rb') as in_file:
