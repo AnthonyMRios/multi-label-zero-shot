@@ -14,6 +14,8 @@ Large multi-label datasets contain labels that occur thousands of times (frequen
 - sklearn
 - nltk
 
+Also, you will need to have a set of pretrained embeddings. You can point to your embeddings by changing line 105 of load_data.py
+
 ## Usage
 ### Training
 
