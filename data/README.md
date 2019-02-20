@@ -4,6 +4,7 @@
 
 - ICD9_descriptions -- A tab separated file with the ICD9 code and its description
 - all_labels_final.txt -- All the MIMIC II ICD9 IDs.
+- ICD9_parent_child_relations -- ICD9 parent child relation hierarchy
 - lookup_ids_labels.txt -- Pipe delimited file matching MIMIC II IDs to ICD9 codes.
 - example_train.json -- A JSON file with 3 keys
     - labels -- A list of MIMIC II ICD9 IDs
