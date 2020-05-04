@@ -90,12 +90,6 @@ def main():
     sys.stdout.flush()
 
     Y_train = np.array(Y_train).astype('float32')
-    label_cooc = Y_train.T.dot(Y_train)
-    topk = label_cooc.argsort(axis=1)[:,-10:]
-    label_cooc[label_cooc > 0] = 0.
-    label_cooc[np.repeat(np.arange(label_cooc.shape[0]),10), topk.flatten()] = 1.
-    label_cooc = label_cooc + np.eye(label_cooc.shape[0])
-    label_cooc[label_cooc > 0] = 1.
 
 
     print("Init Model")
@@ -104,7 +98,6 @@ def main():
     if args.model_type == 'cnn':
         from models.att_cnn_graph import CNN
         adj = joblib.load('./data/mimic2_adj_matrix.pkl')
-        adj = adj + label_cooc
         adj[adj > 0] = 1.
         #with open('/home/amri228/final_paper/data/mimic2/mimic2_adj_matrix.pkl', 'rb') as in_file:
         #    adj = cPickle.load(in_file)
